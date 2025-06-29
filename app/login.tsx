@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import CustomButton from "../components/CustomButton";
 
 const { width } = Dimensions.get("window");
 
@@ -24,14 +25,19 @@ export default function LoginScreen() {
       <Text style={styles.title}>Sign in to continue</Text>
 
       {/* Email Button */}
-      <TouchableOpacity style={styles.emailButton}>
-        <Text style={styles.emailButtonText}>Continue with email</Text>
-      </TouchableOpacity>
+      <CustomButton
+        title="Continue with email"
+        variant="filled"
+        onPress={() => {}}
+      />
 
       {/* Phone Button */}
-      <TouchableOpacity style={styles.phoneButton}>
-        <Text style={styles.phoneButtonText}>Use phone number</Text>
-      </TouchableOpacity>
+      <CustomButton
+        title="Use phone number"
+        variant="outlined"
+        onPress={() => {}}
+        style={{ marginBottom: 32 }}
+      />
 
       {/* Divider */}
       <View style={styles.dividerRow}>
@@ -62,6 +68,18 @@ export default function LoginScreen() {
             style={styles.socialIcon}
             resizeMode="contain"
           />
+        </TouchableOpacity>
+      </View>
+
+      {/* Sign up redirect section */}
+      <View style={styles.signupRow}>
+        <Text style={styles.signupText}>Don&apos;t have an account? </Text>
+        <TouchableOpacity
+          onPress={() => {
+            /* TODO: Add navigation to register screen */
+          }}
+        >
+          <Text style={styles.signupLink}>Sign up</Text>
         </TouchableOpacity>
       </View>
 
@@ -102,33 +120,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: LIGHT_TEXT,
     marginBottom: 32,
-  },
-  emailButton: {
-    width: "100%",
-    backgroundColor: ACCENT,
-    borderRadius: 18,
-    paddingVertical: 18,
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  emailButtonText: {
-    color: LIGHT_TEXT,
-    fontSize: 17,
-    fontWeight: "500",
-  },
-  phoneButton: {
-    width: "100%",
-    borderWidth: 1.5,
-    borderColor: ACCENT,
-    borderRadius: 18,
-    paddingVertical: 18,
-    alignItems: "center",
-    marginBottom: 32,
-  },
-  phoneButtonText: {
-    color: ACCENT,
-    fontSize: 17,
-    fontWeight: "500",
   },
   dividerRow: {
     flexDirection: "row",
@@ -183,5 +174,20 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "400",
     marginHorizontal: 8,
+  },
+  signupRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 24,
+  },
+  signupText: {
+    color: "#aaa",
+    fontSize: 15,
+  },
+  signupLink: {
+    color: ACCENT,
+    fontSize: 15,
+    fontWeight: "600",
   },
 });
