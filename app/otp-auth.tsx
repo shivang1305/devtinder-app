@@ -47,7 +47,7 @@ export default function OtpAuthScreen() {
     setTimer(60);
     setCode(["", "", "", ""]);
     Keyboard.dismiss();
-    // TODO: Trigger resend logic
+    // TODO: Trigger resend otp logic
   };
 
   return (
