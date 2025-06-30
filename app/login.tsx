@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import React from "react";
 import {
   Dimensions,
@@ -12,6 +13,7 @@ import CustomButton from "../components/CustomButton";
 const { width } = Dimensions.get("window");
 
 export default function LoginScreen() {
+  const router = useRouter();
   return (
     <View style={styles.container}>
       {/* Logo */}
@@ -35,7 +37,7 @@ export default function LoginScreen() {
       <CustomButton
         title="Use phone number"
         variant="outlined"
-        onPress={() => {}}
+        onPress={() => router.push("/phone-auth")}
         style={{ marginBottom: 32 }}
       />
 
