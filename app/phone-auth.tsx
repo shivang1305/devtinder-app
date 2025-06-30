@@ -1,14 +1,12 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Dimensions, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import CustomButton from "../components/CustomButton";
 
-const ACCENT = "#ff4b6e";
 const DARK_BG = "#181A20";
 const LIGHT_TEXT = "#fff";
 const SUBTLE_TEXT = "#aaa";
 const ERROR_TEXT = "#ff4b6e";
-const { width } = Dimensions.get("window");
 
 export default function PhoneAuthScreen() {
   const [phone, setPhone] = useState("");

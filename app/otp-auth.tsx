@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Dimensions,
   Keyboard,
   StyleSheet,
   Text,
@@ -14,7 +13,6 @@ const ACCENT = "#ff4b6e";
 const DARK_BG = "#181A20";
 const LIGHT_TEXT = "#fff";
 const SUBTLE_TEXT = "#aaa";
-const { width } = Dimensions.get("window");
 
 export default function OtpAuthScreen() {
   const [code, setCode] = useState(["", "", "", ""]);
