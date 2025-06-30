@@ -7,11 +7,29 @@ const ACCENT = "#ff4b6e";
 const DARK_BG = "#181A20";
 const LIGHT_TEXT = "#fff";
 const SUBTLE_TEXT = "#aaa";
+const ERROR_TEXT = "#ff4b6e";
 const { width } = Dimensions.get("window");
 
 export default function PhoneAuthScreen() {
   const [phone, setPhone] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
+
+  const handlePhoneNumber = (phoneNumber: string) => {
+    if (!isNaN(Number(phoneNumber)) && phoneNumber.length <= 10)
+      setPhone(phoneNumber);
+    if (phoneNumber.length === 10) setError("");
+    else if (phoneNumber.length < 10) setError("Invalid phone number...");
+  };
+
+  const handleContinue = () => {
+    if (phone.length !== 10) {
+      setError("Invalid phone number...");
+    } else {
+      // TODO: call the api to sent otp
+      router.push("/otp-auth");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -22,28 +40,22 @@ export default function PhoneAuthScreen() {
       </Text>
 
       <View style={styles.inputRow}>
-        {/* <TouchableOpacity style={styles.countryPicker}>
-          <Image
-            source={require("../assets/images/flag-us.png")}
-            style={styles.flag}
-          />
-          <Text style={styles.countryCode}>(+1)</Text>
-          <Text style={styles.chevron}>▼</Text>
-        </TouchableOpacity> */}
         <TextInput
           style={styles.input}
           placeholder="Phone number"
           placeholderTextColor={SUBTLE_TEXT}
           keyboardType="phone-pad"
           value={phone}
-          onChangeText={setPhone}
+          onChangeText={handlePhoneNumber}
         />
       </View>
+      {error ? <Text style={styles.error}>{error}</Text> : null}
 
       <CustomButton
         title="Continue"
         variant="filled"
-        onPress={() => router.push("/otp-auth")}
+        onPress={handleContinue}
+        disabled={error === "" ? false : true}
         style={{ marginTop: 32 }}
       />
     </View>
@@ -77,25 +89,13 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     marginBottom: 24,
   },
-  countryPicker: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginRight: 8,
-    paddingVertical: 6,
-    paddingHorizontal: 8,
-    borderRadius: 10,
-    backgroundColor: "#23242a",
-  },
-  flag: {
-    width: 28,
-    height: 20,
-    marginRight: 4,
-    borderRadius: 4,
-  },
-  countryCode: {
-    color: LIGHT_TEXT,
-    fontSize: 16,
-    marginRight: 2,
+  error: {
+    color: ERROR_TEXT,
+    fontSize: 14,
+    marginTop: 4,
+    marginBottom: 0,
+    marginLeft: 4,
+    fontWeight: "500",
   },
   chevron: {
     color: SUBTLE_TEXT,
