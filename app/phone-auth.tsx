@@ -1,8 +1,15 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import CustomButton from "../components/CustomButton";
 
+const ACCENT = "#ff4b6e";
 const DARK_BG = "#181A20";
 const LIGHT_TEXT = "#fff";
 const SUBTLE_TEXT = "#aaa";
@@ -31,6 +38,10 @@ export default function PhoneAuthScreen() {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
+        <Text style={{ color: ACCENT, fontSize: 28 }}>{"<"}</Text>
+      </TouchableOpacity>
+
       <Text style={styles.title}>My mobile</Text>
       <Text style={styles.subtitle}>
         Please enter your valid phone number. We will send you a 4-digit code to
@@ -65,7 +76,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: DARK_BG,
     paddingHorizontal: 24,
-    paddingTop: 80,
+    paddingTop: 96,
+  },
+  backBtn: {
+    position: "absolute",
+    top: 48,
+    left: 24,
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    backgroundColor: "#23242a",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 2,
   },
   title: {
     fontSize: 36,
