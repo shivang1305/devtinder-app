@@ -90,7 +90,9 @@ export default function OtpAuthScreen() {
         onPress={handleResend}
         style={styles.resendBtn}
       >
-        <Text style={[styles.resendText, { opacity: timer > 0 ? 0.5 : 1 }]}>
+        <Text
+          style={[styles.resendText, timer > 0 && styles.resendTextDisabled]}
+        >
           Send again
         </Text>
       </TouchableOpacity>
@@ -162,5 +164,9 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "500",
     textAlign: "center",
+  },
+  resendTextDisabled: {
+    color: "#ff4b6e55",
+    opacity: 0.6,
   },
 });
