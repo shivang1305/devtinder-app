@@ -1,3 +1,4 @@
+import { OTP_DIGITS } from "@/constants/Constants";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -15,7 +16,8 @@ const LIGHT_TEXT = "#fff";
 const SUBTLE_TEXT = "#aaa";
 
 export default function OtpAuthScreen() {
-  const [code, setCode] = useState(["", "", "", ""]);
+  const digitsArr = Array(OTP_DIGITS).fill("");
+  const [code, setCode] = useState(digitsArr);
   const [timer, setTimer] = useState(60);
   const inputRefs = useRef<(TextInput | null)[]>([]);
   const router = useRouter();
@@ -32,7 +34,7 @@ export default function OtpAuthScreen() {
       const newCode = [...code];
       newCode[idx] = text;
       setCode(newCode);
-      if (text && idx < 3) {
+      if (text && idx < OTP_DIGITS - 1) {
         inputRefs.current[idx + 1]?.focus();
       }
       if (text === "" && idx > 0) {
@@ -43,7 +45,7 @@ export default function OtpAuthScreen() {
 
   const handleResend = () => {
     setTimer(60);
-    setCode(["", "", "", ""]);
+    setCode(digitsArr);
     Keyboard.dismiss();
     // TODO: Trigger resend otp logic
   };
@@ -140,16 +142,18 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   otpBox: {
-    width: 56,
+    width: 48,
     height: 56,
-    borderRadius: 14,
+    borderRadius: 12,
     borderWidth: 2,
     borderColor: "#23242a",
     backgroundColor: "#23242a",
     color: LIGHT_TEXT,
     fontSize: 28,
     fontWeight: "700",
-    marginHorizontal: 8,
+    marginHorizontal: 6,
+    textAlign: "center",
+    textAlignVertical: "center", // for Android vertical centering
   },
   otpBoxFilled: {
     borderColor: ACCENT,
