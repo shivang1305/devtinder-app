@@ -30,7 +30,7 @@ export default function LoginScreen() {
       <CustomButton
         title="Continue with email"
         variant="filled"
-        onPress={() => {}}
+        onPress={() => router.push("/email-auth")}
       />
 
       {/* Phone Button */}
