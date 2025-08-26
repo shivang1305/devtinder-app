@@ -26,8 +26,54 @@ const useAuth = () => {
     },
   });
 
+  const registerMutation = useMutation({
+    mutationFn: authService.register,
+    onSuccess: async (data) => {
+      // store tokens
+      await tokenManager.setTokens(
+        data.tokens.accessToken,
+        data.tokens.refreshToken,
+        data.tokens.expiresIn
+      );
+
+      // invalidate the cache and refetch the user
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+
+      // set user as authenticated in cache
+      queryClient.setQueryData(["auth"], {
+        user: data.user,
+        isAuthenticated: true,
+      });
+    },
+  });
+
+  const logoutMutation = useMutation({
+    mutationFn: authService.logout,
+    onSuccess: async () => {
+      // clear tokens
+      await tokenManager.clearTokens();
+
+      // clear cache
+      queryClient.clear();
+
+      // set user as null and unauthenticated in cache
+      queryClient.setQueryData(["auth"], {
+        user: null,
+        isAuthenticated: false,
+      });
+    },
+  });
+
   return {
     login: loginMutation.mutate,
+    register: registerMutation.mutate,
+    logout: logoutMutation.mutate,
+    isLoading:
+      loginMutation.isPending ||
+      registerMutation.isPending ||
+      loginMutation.isPending,
+    error:
+      loginMutation.error || registerMutation.error || logoutMutation.error,
   };
 };
 
