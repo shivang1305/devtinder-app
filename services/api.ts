@@ -266,7 +266,7 @@ const refreshAccessToken = async (
     );
 
     if (response.data.success && response.data.data) {
-      const { user, tokens } = response.data.data;
+      const { tokens } = response.data.data;
       await tokenManager.setTokens(
         tokens.accessToken,
         tokens.refreshToken,
