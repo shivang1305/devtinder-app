@@ -1,5 +1,8 @@
+import LoadingIndicator from "@/components/LoadingIndicator";
+import { Colors } from "@/constants/Colors";
+import useAuth from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,11 +12,7 @@ import {
 } from "react-native";
 import CustomButton from "../components/CustomButton";
 
-const ACCENT = "#ff4b6e";
-const DARK_BG = "#181A20";
-const LIGHT_TEXT = "#fff";
-const SUBTLE_TEXT = "#aaa";
-const ERROR_TEXT = "#ff4b6e";
+const { ACCENT, DARK_BG, LIGHT_TEXT, SUBTLE_TEXT, ERROR_TEXT } = Colors;
 
 function validateEmail(email: string) {
   return /\S+@\S+\.\S+/.test(email);
@@ -22,19 +21,37 @@ function validateEmail(email: string) {
 export default function EmailAuthScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [localError, setLocalError] = useState("");
   const router = useRouter();
+  const { login, isLoading, error } = useAuth();
 
-  const handleContinue = () => {
-    if (!validateEmail(email)) {
-      setError("Invalid email address");
-    } else if (!password) {
-      setError("Password cannot be empty");
-    } else {
-      setError("");
-      // TODO: call the api to send verification email
-      router.push("./email-verify");
+  useEffect(() => {
+    if (error) {
+      setLocalError(error.message || "Login failed. Please try again");
     }
+  }, [error]);
+
+  const handleContinue = async () => {
+    setLocalError("");
+
+    if (!validateEmail(email)) {
+      setLocalError("Invalid email address");
+    } else if (!password) {
+      setLocalError("Password cannot be empty");
+    } else if (password.length < 6) {
+      setLocalError("Password must be atleast 6 characters");
+    } else {
+      try {
+        // TODO: call the api to send verification email
+        await login({ email, password });
+        router.push("./email-verify");
+      } catch (error) {
+        setLocalError("Login failed: " + error);
+        console.log(error);
+      }
+    }
+
+    return;
   };
 
   return (
@@ -57,7 +74,11 @@ export default function EmailAuthScreen() {
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(text) => {
+            setEmail(text);
+            setLocalError("");
+          }}
+          editable={!isLoading}
         />
       </View>
       <View style={styles.inputRow}>
@@ -67,18 +88,24 @@ export default function EmailAuthScreen() {
           placeholderTextColor={SUBTLE_TEXT}
           secureTextEntry
           value={password}
-          onChangeText={setPassword}
+          onChangeText={(text) => {
+            setPassword(text);
+            setLocalError("");
+          }}
+          editable={!isLoading}
         />
       </View>
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+      {localError ? <Text style={styles.error}>{localError}</Text> : null}
 
       <CustomButton
-        title="Continue"
+        title={isLoading ? "Signing in..." : "Continue"}
         variant="filled"
         onPress={handleContinue}
-        disabled={email === "" || password === ""}
+        disabled={email === "" || password === "" || isLoading}
         style={{ marginTop: 32 }}
       />
+
+      {isLoading && <LoadingIndicator />}
     </View>
   );
 }
