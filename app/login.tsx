@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -11,6 +12,8 @@ import {
 import CustomButton from "../components/CustomButton";
 
 const { width } = Dimensions.get("window");
+
+const { ACCENT, DARK_BG, LIGHT_TEXT, SUBTLE_TEXT } = Colors;
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -97,11 +100,6 @@ export default function LoginScreen() {
     </View>
   );
 }
-
-const ACCENT = "#ff4b6e";
-const DARK_BG = "#181A20";
-const LIGHT_TEXT = "#fff";
-const SUBTLE_TEXT = "#aaa";
 
 const styles = StyleSheet.create({
   container: {

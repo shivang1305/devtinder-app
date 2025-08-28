@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import { OTP_DIGITS } from "@/constants/Constants";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
@@ -10,10 +11,7 @@ import {
   View,
 } from "react-native";
 
-const ACCENT = "#ff4b6e";
-const DARK_BG = "#181A20";
-const LIGHT_TEXT = "#fff";
-const SUBTLE_TEXT = "#aaa";
+const { ACCENT, DARK_BG, LIGHT_TEXT, SUBTLE_TEXT } = Colors;
 
 export default function OtpAuthScreen() {
   const digitsArr = Array(OTP_DIGITS).fill("");

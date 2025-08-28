@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -9,6 +10,8 @@ import {
   View,
 } from "react-native";
 import CustomButton from "../components/CustomButton";
+
+const { ACCENT, DARK_BG, LIGHT_TEXT, SUBTLE_TEXT } = Colors;
 
 const { width } = Dimensions.get("window");
 
@@ -89,11 +92,6 @@ export default function RegisterScreen() {
     </View>
   );
 }
-
-const ACCENT = "#ff4b6e";
-const DARK_BG = "#181A20";
-const LIGHT_TEXT = "#fff";
-const SUBTLE_TEXT = "#aaa";
 
 const styles = StyleSheet.create({
   container: {

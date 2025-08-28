@@ -1,6 +1,7 @@
 import LoadingIndicator from "@/components/LoadingIndicator";
 import { Colors } from "@/constants/Colors";
 import useAuth from "@/hooks/useAuth";
+import { isValidEmail } from "@/utils/helpers";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -13,10 +14,6 @@ import {
 import CustomButton from "../components/CustomButton";
 
 const { ACCENT, DARK_BG, LIGHT_TEXT, SUBTLE_TEXT, ERROR_TEXT } = Colors;
-
-function validateEmail(email: string) {
-  return /\S+@\S+\.\S+/.test(email);
-}
 
 export default function EmailAuthScreen() {
   const [email, setEmail] = useState("");
@@ -34,7 +31,7 @@ export default function EmailAuthScreen() {
   const handleContinue = async () => {
     setLocalError("");
 
-    if (!validateEmail(email)) {
+    if (!isValidEmail(email)) {
       setLocalError("Invalid email address");
     } else if (!password) {
       setLocalError("Password cannot be empty");

@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -9,11 +10,7 @@ import {
 } from "react-native";
 import CustomButton from "../components/CustomButton";
 
-const ACCENT = "#ff4b6e";
-const DARK_BG = "#181A20";
-const LIGHT_TEXT = "#fff";
-const SUBTLE_TEXT = "#aaa";
-const ERROR_TEXT = "#ff4b6e";
+const { ACCENT, DARK_BG, LIGHT_TEXT, SUBTLE_TEXT, ERROR_TEXT } = Colors;
 
 export default function PhoneAuthScreen() {
   const [phone, setPhone] = useState("");

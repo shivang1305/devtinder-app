@@ -1,4 +1,6 @@
+import { Colors } from "@/constants/Colors";
 import { OTP_DIGITS } from "@/constants/Constants";
+import { isSingleDigitorEmptyString } from "@/utils/helpers";
 import { useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
@@ -10,10 +12,7 @@ import {
   View,
 } from "react-native";
 
-const ACCENT = "#ff4b6e";
-const DARK_BG = "#181A20";
-const LIGHT_TEXT = "#fff";
-const SUBTLE_TEXT = "#aaa";
+const { ACCENT, DARK_BG, LIGHT_TEXT, SUBTLE_TEXT } = Colors;
 
 export default function EmailVerifyScreen() {
   const digitsArr = new Array(OTP_DIGITS).fill("");
@@ -22,7 +21,7 @@ export default function EmailVerifyScreen() {
   const router = useRouter();
 
   const handleChange = (text: string, idx: number) => {
-    if (/^\d?$/.test(text)) {
+    if (isSingleDigitorEmptyString(text)) {
       const newCode = [...code];
       newCode[idx] = text;
       setCode(newCode);
